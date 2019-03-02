@@ -1,6 +1,6 @@
 ---
-- name: Install Java 1.9
-  yum: name=java-1.9.0-openjdk state=present
+- name: Install Java 1.8.0
+  yum: name=java-1.8.0-openjdk state=present
 
 - name: add group "tomcat"
   group: name=tomcat
@@ -32,7 +32,6 @@
 
 - name: Install Tomcat init script
   copy: src=tomcat-initscript.sh dest=/etc/init.d/tomcat mode=0755
-
 - name: Start Tomcat
   service: name=tomcat state=started enabled=yes
 
