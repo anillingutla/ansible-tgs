@@ -1,17 +1,17 @@
 
-[dev-tomcat-servers]
+[tomcat-servers]
 localhost ansible_connection=local ansible_user=ansible
 ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=ansible
-[dev-apache-servers]
-[dev-dbservers]
-[dev-ldap-servers]
-[dev-isam-servers]
+[apache-servers]
+[dbservers]
+[ldap-servers]
+[isam-servers]
 
 
 [dev:children]
-dev-tomcat-servers
-dev-apache-servers
-dev-dbservers
-dev-ldap-servers
-dev-isam-servers
+tomcat-servers
+apache-servers
+dbservers
+ldap-servers
+isam-servers
 
