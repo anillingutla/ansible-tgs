@@ -1,4 +1,4 @@
 ---
 - name: restart tomcat
   service: name=tomcat state=restarted
-
+  become_user: ansible

@@ -15,10 +15,12 @@
 #
  
 #Location of JAVA_HOME (bin files)
-export JAVA_HOME=/usr/lib/jvm/jre
+export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk
  
 #Add Java binary files to PATH
 export PATH=$JAVA_HOME/bin:$PATH
+
+echo "$JAVA_HOME: " $JAVA_HOME
  
 #CATALINA_HOME is the location of the bin files of Tomcat  
 export CATALINA_HOME=/usr/share/tomcat  
@@ -31,6 +33,8 @@ export TOMCAT_USER=tomcat
  
 #TOMCAT_USAGE is the message if this script is called without any options
 TOMCAT_USAGE="Usage: $0 {\e[00;32mstart\e[00m|\e[00;31mstop\e[00m|\e[00;32mstatus\e[00m|\e[00;31mrestart\e[00m}"
+
+echo "$PATH :" $PATH
  
 #SHUTDOWN_WAIT is wait time in seconds for java proccess to stop
 SHUTDOWN_WAIT=20
