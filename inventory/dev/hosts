@@ -1,6 +1,5 @@
 
 [tomcat-servers]
-localhost ansible_connection=local ansible_user=ansible
 ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=ansible
 [apache-servers]
 [dbservers]
