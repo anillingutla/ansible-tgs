@@ -1,72 +1,92 @@
 ---
-- import_tasks: prerequisites/install-prerequisites.yml
+# tasks file for nginx
 
-- import_tasks: keys/apt-key.yml
-  when:
-    - ansible_os_family == "Debian"
-    - nginx_install_from == "nginx_repository"
-      or nginx_amplify_enable
-      or nginx_controller_enable
-      or nginx_unit_enable
+- name: Add nginx yum repository
+  yum_repository:
+    name: nginx
+    description: nginx
+    baseurl: "{{ nginx_yum_repo_url }}"
+    gpgcheck: no
+    enabled: yes
+  tags: yum
 
-- import_tasks: keys/rpm-key.yml
-  when:
-    - ansible_os_family == "RedHat"
-      or ansible_os_family == "Suse"
-    - nginx_install_from == "nginx_repository"
-      or nginx_amplify_enable
-      or nginx_controller_enable
-      or nginx_unit_enable
+- name: Install nginx
+  yum: name="{{ item }}" state=installed
+  with_items:
+    - nginx
+    # needed for htpasswd utility
+    - httpd-tools
+  tags: yum
 
-- name: "(Install: Debian/Ubuntu/CentOS/RedHat/FreeBSD) Install NGINX"
-  block:
+- name: Ensure SELinux settings for nginx reverse proxying
+  seboolean: name=httpd_can_network_connect state=yes persistent=yes
+  when: nginx_configure_selinux
 
-    - import_tasks: opensource/install-oss.yml
-      when: nginx_type == "opensource"
+- name: Copy nginx configuration
+  template:
+    src: "{{ nginx_conf_template }}"
+    dest: "{{ nginx_conf_file_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload nginx
 
-    - import_tasks: plus/install-plus.yml
-      when: nginx_type == "plus"
+- name: Ensure nginx_conf_path exists
+  file:
+    path: "{{ nginx_conf_path }}"
+    state: directory
+  notify: reload nginx
 
-    - import_tasks: conf/cleanup-config.yml
-      when: nginx_cleanup_config
+- name: Remove default nginx conf file (if configured)
+  file:
+    path: "{{ nginx_default_conf }}"
+    state: absent
+  when: nginx_remove_default_conf
+  notify: restart nginx
 
-    - import_tasks: modules/install-modules.yml
-      when: true in nginx_modules.values()
+- name: Add managed conf files
+  template:
+    src: "{{ item.template|default(nginx_server_conf_template) }}"
+    dest: "{{ nginx_conf_path }}/{{ item.server_name.split(' ')[0] }}.conf"
+    force: yes
+    owner: root
+    group: root
+    mode: 0644
+  when: item.state|default('present') != 'absent'
+  with_items: "{{ nginx_servers }}"
+  notify: reload nginx
 
-    - import_tasks: conf/upload-config.yml
-      when: nginx_main_upload_enable
-            or nginx_http_upload_enable
-            or nginx_stream_upload_enable
-            or nginx_html_upload_enable
-            or nginx_ssl_upload_enable
+- name: Remove managed conf files
+  file:
+    path: "{{ nginx_conf_path }}/{{ item.server_name.split(' ')[0] }}.conf"
+    state: absent
+  when: item.state|default('present') == 'absent'
+  with_items: "{{ nginx_servers }}"
+  notify: reload nginx
 
-    - import_tasks: conf/template-config.yml
-      when: nginx_main_template_enable
-            or nginx_http_template_enable
-            or nginx_stream_template_enable
-            or nginx_rest_api_enable
+- name: Copy ssl configuration
+  template:
+    src: ssl.conf.j2
+    dest: "{{ nginx_ssl_conf_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: nginx_enable_ssl
+  notify:
+    - reload nginx
 
-    - import_tasks: conf/setup-status.yml
-      when: nginx_status_enable
+- name: Copy basic auth file
+  template:
+    src: "{{ nginx_basic_auth_file }}"
+    dest: "{{ nginx_htpasswd_file_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: nginx_basic_auth_file is defined
+  notify:
+    - reload nginx
 
-    - import_tasks: conf/debug-output.yml
-      when: nginx_debug_output
+- name: Ensure nginx is started and enabled to start at boot
+  service: name=nginx state=started enabled=yes
 
-  when: nginx_enable
-
-- import_tasks: amplify/install-amplify.yml
-  when:
-    - nginx_amplify_enable
-    - nginx_amplify_api_key is defined
-    - nginx_amplify_api_key
-
-- import_tasks: controller/install-controller.yml
-  when:
-    - nginx_controller_enable
-    - nginx_controller_api_key is defined
-    - nginx_controller_api_key
-    - nginx_controller_api_endpoint is defined
-    - nginx_controller_api_endpoint
-
-- import_tasks: unit/install-unit.yml
-  when: nginx_unit_enable

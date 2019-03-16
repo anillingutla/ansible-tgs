@@ -1,33 +1,13 @@
 ---
-- name: "(Handler: All OSs) Start NGINX"
-  service:
-    name: nginx
-    state: started
-    enabled: yes
+# handlers file for nginx
 
-- name: "(Handler: All OSs) Reload NGINX"
-  service:
-    name: nginx
-    state: reloaded
+- name: restart nginx
+  service: name=nginx state=restarted
 
-- name: "(Handler: All OSs) Start NGINX Amplify Agent"
-  service:
-    name: amplify-agent
-    state: started
+- name: validate nginx configuration
+  command: nginx -t -c /etc/nginx/nginx.conf
+  changed_when: False
 
-- name: "(Handler: All OSs) Start NGINX Controller Agent"
-  service:
-    name: controller-agent
-    state: started
+- name: reload nginx
+  service: name=nginx state=reloaded
 
-- name: "(Handler: Debian/Ubuntu/CentOS/RedHat) Start NGINX Unit"
-  service:
-    name: unit
-    state: started
-    enabled: yes
-
-- name: "(Handler: FreeBSD) Start NGINX Unit"
-  service:
-    name: unitd
-    state: started
-    enabled: yes

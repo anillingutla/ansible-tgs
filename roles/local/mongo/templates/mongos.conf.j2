@@ -1,0 +1,15 @@
+systemLog:
+    destination: file
+    path: {{ mongo_log_path }}
+    logAppend: {{ mongo_log_append | lower }}
+    logRotate: {{ mongo_log_rotate }}
+    verbosity: {{ mongo_log_verbosity }}
+processManagement:
+    fork: {{ mongo_fork_process }}
+    pidFilePath: {{ mongo_pid_file }}
+net:
+    bindIp: 0.0.0.0
+    port: {{ mongo_port }}
+sharding:
+   configDB: {{ mongo_config_db }}
+   chunkSize: {{ mongo_chunk_size }}

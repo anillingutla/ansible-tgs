@@ -1,0 +1,13 @@
+- name: Install nginx
+  hosts: nginix-servers
+  roles:
+    - role: nginx
+      nginx_enable_ssl: true
+      nginx_configure_selinux: true
+      nginx_basic_auth_file: files/htpasswd
+      nginx_servers:
+        - name: ui
+          server_name: localhost
+          port: 8080
+          autoindex: false
+          basic_auth: true

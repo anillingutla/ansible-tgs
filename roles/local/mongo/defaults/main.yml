@@ -1,0 +1,65 @@
+---
+# defaults file for mongo
+
+mongo_version: 3.6
+
+# The name of the mongo process
+mongo_process_name: mongod
+
+# The location of the database files
+mongo_db_dir: /data/db
+
+# The location of the configuration file
+mongo_conf_file: /etc/mongod.conf
+
+# The location of the pid file
+mongo_pid_file: /var/run/mongodb/mongod.pid
+
+# The location of the log file
+mongo_log_path: /var/log/mongodb/mongod.log
+
+# Mongo port
+mongo_port: 27017
+
+# Mongo logging properties
+mongo_log_append: false
+mongo_log_rotate: rename
+mongo_log_verbosity: 0
+
+# Determines whether the process should be forked
+mongo_fork_process: true
+
+mongo_cluster_role: shardsvr
+
+mongo_authorization: disabled
+
+# Mongos configs
+mongo_config_db: ''
+mongo_chunk_size: 0
+
+mongo_ssl_enabled: false
+# the following are required if mongo_ssl_enabled is true:
+#mongo_ssl_mode:
+#mongo_ssl_pem_key_file:
+#mongo_ssl_pem_key_password:
+#mongo_ssl_ca_file:
+#mongo_ssl_allow_invalid_certificates:
+#mongo_ssl_allow_invalid_hostnames:
+
+# enable to initialize replica set
+mongo_init_replica_set: false
+
+# list of servers in the replica set
+mongo_replica_servers: []
+
+# replicate set name
+mongo_replica_set_name: rs0
+
+# sleep time between adding nodes to the replica set
+mongo_replica_sleep_millis: 10000
+
+# full path to mongo executable, used to configure replica set
+mongo_cmd: /usr/bin/mongo
+
+# extra opts for invoking mongo executable
+mongo_cmd_opts: ''
