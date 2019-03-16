@@ -1,16 +1,17 @@
 - name: Install nginx
   hosts: nginix-servers
+  gather_facts: true
+  pre_tasks:
+       - set_fact: ansible_distribution_major_version=7
+         when: ansible_distribution == "Amazon" and ansible_distribution_major_version == "NA"
   roles:
     - role: nginx
       nginx_enable_ssl: true
-      nginx_configure_selinux: true
-      nginx_basic_auth_file: files/htpasswd
+#      nginx_configure_selinux: true
+#      nginx_basic_auth_file: "/etc/nginix/.htpasswd"
       nginx_servers:
         - name: ui
           server_name: localhost
           port: 8080
           autoindex: false
           basic_auth: true
-      pre_tasks:
-          - set_fact: ansible_distribution_major_version=7
-            when: ansible_distribution == "Amazon" and ansible_distribution_major_version == "NA"

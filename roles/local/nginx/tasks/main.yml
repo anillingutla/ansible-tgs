@@ -1,14 +1,18 @@
 ---
 # tasks file for nginx
 
-- name: Add nginx yum repository
-  yum_repository:
-    name: nginx
-    description: nginx
-    baseurl: "{{ nginx_yum_repo_url }}"
-    gpgcheck: no
-    enabled: yes
-  tags: yum
+
+#- name: Add nginx yum repository
+#  yum_repository:
+#    name: nginx
+#    description: nginx
+#    baseurl: "{{ nginx_yum_repo_url }}"
+#    gpgcheck: no
+#    enabled: yes
+#  tags: yum
+
+- import_tasks: repository.yml
+#Install the official nginx repository fdr supported OS's. Moved into a seperate file for readability.
 
 - name: Install nginx
   yum: name="{{ item }}" state=installed
@@ -16,6 +20,8 @@
     - nginx
     # needed for htpasswd utility
     - httpd-tools
+    - libselinux-python
+    - libsemanage-python
   tags: yum
 
 - name: Ensure SELinux settings for nginx reverse proxying
