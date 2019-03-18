@@ -1,18 +1,21 @@
 # roles/mariadb/tasks/install.yml
 ---
-
-- name: Add official MariaDB repository
+- name: Add mariadb repo
   yum_repository:
-    name: MariaDB
-    description: Official MariaDB repository
-    baseurl: "http://{{ mariadb_mirror }}/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel')|regex_replace('oraclelinux', 'centos') }}{{ ansible_distribution_major_version }}-amd64"
+    name: mariadb
+    description: mariadb
+    baseurl: http://yum.mariadb.org/{{ mariadb_version }}/centos7-amd64
     gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-    gpgcheck: true
+    gpgcheck: 1
+    enabled: 1
   tags: mariadb
 
-- name: Install packages
-  package:
-    name: "{{ item }}"
-    state: installed
-  with_items: "{{ mariadb_packages }}"
+- name: Install MariaDB packages
+  yum: name={{ item }} state=installed 
+  update_cache: yes
+  with_items:
+    - MariaDB-server
+    - MariaDB-client
+    - MySQL-python
   tags: mariadb
+

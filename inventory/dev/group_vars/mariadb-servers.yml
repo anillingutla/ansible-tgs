@@ -15,11 +15,16 @@ mariadb_config_custom: /etc/my.cnf.d/custom.cnf
 
 # Mariadb variables
 
-mariadb_databases: []
-mariadb_users: []
-mariadb_root_password: ''
+mariadb_databases: 
+   - name: db1
+mariadb_users: 
+   - name: admin
+     password: admin
+     priv: '*.*:ALL,GRANT'	
 
-mariadb_mirror: yum.mariadb.org
+mariadb_root_password: 'admin'
+
+mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
 mariadb_version: '10.3'
 
 mariadb_configure_swappiness: true
@@ -87,4 +92,8 @@ mariadb_innodb_strict_mode: 'ON'
 
 # Custom settings
 
-mariadb_custom_cnf: {}
+mariadb_custom_cnf: 
+mysqld:
+    general-log:
+    general-log-file: queries.log
+    log-output: file

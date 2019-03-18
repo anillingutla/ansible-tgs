@@ -7,7 +7,8 @@ ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=an
 [nginix-servers]
 ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=ansible
 
-[dbservers]
+[db-servers]
+ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=ansible
 
 [ldap-servers]
 
@@ -18,7 +19,7 @@ ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=an
 tomcat-servers
 apache-servers
 nginix-servers
-dbservers
+db-servers
 ldap-servers
 isam-servers
 

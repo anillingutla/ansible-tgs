@@ -1,4 +1,4 @@
-# ansible-skel
+
 This is my Ansible skeleton. It provide a nice structure to work comfortably with Ansible. You don't need to follow all principes of this structure to use Ansible.
 
 
