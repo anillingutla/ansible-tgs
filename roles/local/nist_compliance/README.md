@@ -34,5 +34,5 @@ Example Playbook
 License
 -------
 
-MIT
+GNU
 
