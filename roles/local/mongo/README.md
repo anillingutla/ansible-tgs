@@ -92,9 +92,14 @@ Install and configure mongo
       hosts: servers
       roles:
         - role: mongo
+      # load variables from this group vars file
+      vars_files:
+          - ../inventory/dev/group_vars/mongodb-servers
+      tasks:
+          - add_host: name=localhost
+                  groups=dev
 
 License
 -------
-
-MIT
+GNU
 
