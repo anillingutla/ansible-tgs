@@ -43,6 +43,7 @@ To help you to start quickly, there are few entrey point to have your first play
 3. Nginixinc.Nginix (Galaxy role)
 4. MongoDB
 5. MariaDB
+6. NIST_COMPLIANCE (playbook for implementing NIST profile for all servers)
 
 # Playbooks 
 ansible-playbook  /opt/ansible-tgs/playbooks/nginix-standalone.yml -vvvv 
