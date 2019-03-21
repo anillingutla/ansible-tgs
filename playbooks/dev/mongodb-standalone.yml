@@ -4,7 +4,7 @@
   become_user: root
   roles:
     - role: mongo
-  # load AWS variables from this group vars file
+  # load  variables from this group vars file
   vars_files:
       - ../inventory/dev/group_vars/mongodb-servers
 
