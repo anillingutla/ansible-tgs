@@ -1,0 +1,12 @@
+- hosts: servers
+  become: yes
+  become_method: sudo
+  roles:
+    - name: Run compliance requirements
+      role: nist_compliance
+  # load variables from this group vars file
+  vars_files:
+      - ../inventory/dev/group_vars/nist_compliance
+  tasks:
+      - add_host: name=localhost
+                  groups=dev
