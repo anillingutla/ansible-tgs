@@ -1,12 +1,26 @@
 ---
 # tasks file for mongo
+- name: Ensure dependencies for building from source are installed (RedHat).
+  package:
+    name:
+      - libcurl
+      - openssl      
+      - vim-enhanced
+      - gcc
+      - wget
+      - libsemanage-python
+      - policycoreutils-python
+    state: present
+  when: ansible_os_family == 'RedHat'
 
 - name: Add mongo yum repository
   yum_repository:
     name: mongodb-org-{{ mongo_version }}
     description: MongoDB Repository
-    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mongo_version }}/$basearch/
-    gpgcheck: no
+    baseurl: https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.0/x86_64/
+    gpgcheck: yes
+    gpgkey: https://www.mongodb.org/static/pgp/server-4.0.asc
+    enabled: 1
   tags: [ yum ]
   when: local_artifact is undefined
 

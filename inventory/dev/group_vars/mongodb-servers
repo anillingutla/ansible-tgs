@@ -1,7 +1,16 @@
 ---
+
+# vars file for mongo
+
+mongo_user: mongod
+
+# mongo db redhat variables 
+mongo_baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/
+mongo_gpgkey: https://www.mongodb.org/static/pgp/server-4.0.asc
+
 # defaults file for mongo
 
-mongo_version: 3.6
+mongo_version: 4.0
 
 # The name of the mongo process
 mongo_process_name: mongod
@@ -63,3 +72,4 @@ mongo_cmd: /usr/bin/mongo
 
 # extra opts for invoking mongo executable
 mongo_cmd_opts: ''
+

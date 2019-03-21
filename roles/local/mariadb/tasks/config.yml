@@ -19,7 +19,7 @@
   template:
     src: etc_my.cnf.d_custom.cnf.j2
     dest: "{{ mariadb_config_custom }}"
-  when: mariadb_custom_cnf|length != 0
+#  when: mariadb_custom_cnf | length > 0
   notify: restart mariadb
   tags: mariadb
 
