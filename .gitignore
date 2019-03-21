@@ -9,4 +9,4 @@ roles/vendors/*
 
 # Ignore generic files
 *.pyc
-
+*.retry
