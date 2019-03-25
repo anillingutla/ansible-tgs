@@ -13,6 +13,10 @@ ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=an
 [mongodb-servers]
 ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=ansible
 
+[nist_compliance_servers]
+ec2-54-210-49-209.compute-1.amazonaws.com ansible_connection=ssh ansible_user=ansible
+
+
 [ldap-servers]
 
 [isam-servers]
@@ -26,4 +30,4 @@ mariadb-servers
 mongodb-servers
 ldap-servers
 isam-servers
-
+nist_compliance_servers

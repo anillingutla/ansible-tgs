@@ -6,7 +6,7 @@
       role: nist_compliance
   # load variables from this group vars file
   vars_files:
-      - ../inventory/dev/group_vars/nist_compliance
+      - ../inventory/dev/group_vars/nist_compliance_servers
   tasks:
       - add_host: name=localhost
                   groups=dev
